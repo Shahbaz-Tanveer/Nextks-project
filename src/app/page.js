@@ -2,77 +2,88 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="w-full h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col justify-center items-center gap-4 md:gap-[7.12px] p-4 md:p-0">
-      {" "}
-      <div className="w-full md:w-[1100px] h-auto md:h-[714.42px] relative">
-        {" "}
-        <div className="w-full md:w-[689px] h-auto md:h-[584.29px] absolute left-0 md:left-[-102px] top-[152.21px]" />{" "}
-        <div className="absolute h-auto md:h-[542.02px] left-0 md:left-[396px] top-[86.21px] flex flex-col justify-start items-start md:items-end gap-3.5">
-          {" "}
-          <div className="self-stretch text-center md:text-right text-white text-[45px] md:text-[85.35px] font-bold font-['Signika']">
-            {" "}
-            Questionnaire{" "}
-          </div>{" "}
-          <div className="h-auto md:h-[423.02px] flex flex-col justify-start items-start gap-6">
-            {" "}
-            <div className="self-stretch p-6 md:p-8 bg-[#edb6d2] rounded-[34.92px] flex flex-col justify-center items-center gap-[7.28px]">
-              {" "}
-              <div className="w-full md:w-[376.12px]">
-                {" "}
-                <span className="text-black text-xl md:text-2xl font-normal font-['Source Sans Pro']">
-                  {" "}
-                  Welcome! <br />{" "}
-                </span>{" "}
-                <span className="text-black text-base font-normal font-['Source Sans Pro']">
-                  {" "}
-                  <br />{" "}
-                </span>{" "}
-                <span className="text-black text-base md:text-lg font-normal font-['Source Sans Pro']">
-                  {" "}
-                  We're excited to hear your thoughts, ideas, and insights.
-                  Don't worry about right or wrong answers—just speak from the
-                  heart. <br /> Your genuine feedback is invaluable to us!{" "}
-                </span>{" "}
-              </div>{" "}
-            </div>{" "}
-            <div className="self-stretch h-auto md:h-[90px] flex flex-col justify-start items-start gap-[30px]">
-              {" "}
-              <div className="self-stretch h-auto md:h-[90px] flex flex-col justify-center items-start gap-[9px]">
-                {" "}
-                <div className="text-white text-xl font-medium font-['Signika']">
-                  {" "}
-                  Email{" "}
-                </div>{" "}
-                <div className="self-stretch h-14 px-4 py-3 bg-white rounded-[28px] border border-[#cdcdcd] flex justify-start items-center gap-2.5">
-                  {" "}
-                  <div className="grow shrink basis-0 text-[#a2a2a2] text-sm font-normal font-['Signika']">
-                    {" "}
-                    Enter email address{" "}
-                  </div>{" "}
-                </div>{" "}
-              </div>{" "}
-            </div>{" "}
-            <Link href="/page2#startSurvey">
-              <div className="self-stretch h-20 px-[35px] py-2 bg-[#bbe94a] rounded-[35px] flex justify-between items-center">
-                <div className="text-black text-2xl font-bold font-['Signika']">
-                  Start Survey
-                </div>
+    <div className="min-h-screen bg-gradient-to-l from-[rgb(1,1,1)] to-[#4d4d4d] flex flex-col items-center p-4 lg:p-0">
+      <div className="w-full max-w-6xl relative flex flex-col lg:flex-row items-center lg:items-start gap-6 pt-4 lg:h-screen">
+        {/* Image Container */}
+        <div className="relative w-full lg:w-1/2 aspect-square lg:aspect-auto lg:h-full">
+          {/* First image (Union.PNG) container */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative -top-32 -left-8 lg:-top-48 lg:-left-12 w-full">
+              <img
+                src="Union.PNG"
+                alt="Placeholder"
+                className="w-[50%] md:w-[55%] h-auto object-contain mix-blend-overlay opacity-90 brightness-200 contrast-125"
+              />
+            </div>
+          </div>
+
+          {/* Second image (1stshoe.png) container - Moved much higher */}
+          <div className="absolute bottom-0 w-full">
+            <div className="relative -top-32 lg:-top-64 right-0">
+              <img
+                src="1stshoe.png"
+                alt="Placeholder"
+                className="w-full h-auto object-contain mix-blend-overlay"
+              />
+            </div>
+          </div>
+          <div className="absolute w-full" style={{ bottom: "20vh" }}>
+            <img
+              src="Ellipse.PNG"
+              alt="Placeholder"
+              className="w-full h-auto object-contain mix-blend-overlay"
+            />
+          </div>
+        </div>
+
+        {/* Content Container */}
+        <div className="w-full lg:w-1/2 flex flex-col gap-6 z-10 lg:h-full justify-center">
+          <h1 className="text-4xl lg:text-7xl text-white font-bold font-['Signika'] text-center lg:text-right">
+            Questionnaire
+          </h1>
+          {/* Welcome Message */}
+          <div className="bg-[#edb6d2] rounded-3xl p-6 lg:p-8">
+            <div className="space-y-4 text-black">
+              <span className="text-xl lg:text-2xl font-['Source Sans Pro'] block">
+                Welcome!
+              </span>
+              <p className="text-base lg:text-lg font-['Source Sans Pro']">
+                We're excited to hear your thoughts, ideas, and insights. Don't
+                worry about right or wrong answers—just speak from the heart.
+                Your genuine feedback is invaluable to us!
+              </p>
+            </div>
+          </div>
+          {/* Email Input */}
+          <div className="space-y-2">
+            <label className="text-white text-xl font-medium font-['Signika']">
+              Email
+            </label>
+            <input
+              type="email"
+              placeholder="Enter email address"
+              className="w-full h-14 px-4 py-3 bg-white rounded-3xl border border-[#cdcdcd] text-sm font-['Signika'] text-[#a2a2a2]"
+            />
+          </div>
+          {/* Start Survey Button */}
+          <Link href="/page2#startSurvey">
+            <div className="self-stretch h-20 px-[35px] py-2 bg-[#bbe94a] rounded-[35px] flex justify-between items-center">
+              <div className="text-black text-2xl font-bold font-['Signika']">
+                Start Survey
               </div>
-            </Link>{" "}
-          </div>{" "}
-        </div>{" "}
-        <img className="mt-11" src="Union.png" alt="Placeholder" />{" "}
-        <img
-          className="w-full md:w-[564px] h-auto md:h-[466px] absolute left-0 md:left-[-86px] top-[120.21px] mix-blend-overlay"
-          src="1stshoe.png"
-          alt="Placeholder"
-        />{" "}
-        <img
-          className="w-full md:w-[500px] h-[200px] md:h-[60px] absolute left-0 md:left-[-26px] top-[600.21px] mix-blend-overlay"
-          src="Ellipse.png"
-          alt="Placeholder"
-        />{" "}
-      </div>{" "}
+
+              {/* Image icon on the right */}
+              <div className="w-4 h-4">
+                <img
+                  src="Union2.PNG"
+                  alt="Union Icon"
+                  className="w-full h-full object-contain filter grayscale"
+                />
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

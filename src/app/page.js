@@ -112,7 +112,14 @@ export default function Home() {
             <Link
               href="/page2"
               passHref
-              onClick={handleStartSurvey}
+              onClick={(e) => {
+                // Prevent navigation if there's an error or email is empty
+                if (!email || error) {
+                  e.preventDefault();
+                } else {
+                  handleStartSurvey();
+                }
+              }}
               className={`self-stretch h-16 lg:h-20 px-[35px] py-2 bg-[#bbe94a] rounded-[35px] flex justify-between items-center ${
                 !email || error ? "cursor-not-allowed opacity-50" : ""
               }`}

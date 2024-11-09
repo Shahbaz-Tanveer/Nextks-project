@@ -124,9 +124,15 @@ export default function Page2() {
               </span>
             </Link>
 
-            {/* Next Button */}
             <Link
               href="/page3"
+              passHref
+              onClick={(e) => {
+                // Prevent navigation if no card is selected
+                if (!selectedCard) {
+                  e.preventDefault();
+                }
+              }}
               className={`w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#bbe94a] hover:bg-[#a1d26c] rounded-full flex items-center justify-center transition-colors ${
                 !selectedCard ? "cursor-not-allowed opacity-50" : ""
               }`}

@@ -11,20 +11,40 @@ export default function Page2() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
+    // Get email from local storage and fetch progress
     const storedEmail = localStorage.getItem("emailAddress");
     if (storedEmail) {
       setEmail(storedEmail);
+      fetchProgress(storedEmail);
     } else {
       setError("Email not found. Please go back and enter your email.");
     }
   }, []);
+
+  // Fetch progress for the current email
+  const fetchProgress = async (email) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/progress/${email}`
+      );
+      if (response.status === 200 && response.data.success) {
+        const { step, data } = response.data.data;
+        if (step >= 1 && data.Q1) {
+          // Set selected card based on previously answered question
+          setSelectedCard(data.Q1 === "Nike Orange" ? 1 : 2);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching progress:", error);
+      setError("Failed to fetch your progress. Please try again.");
+    }
+  };
 
   const handleCardClick = async (cardId) => {
     try {
       setIsSubmitting(true);
       setSelectedCard(cardId);
 
-      // Get the answer text based on card selection
       const answerText = cardId === 1 ? "Nike Orange" : "Nike Black";
 
       if (!email) {
@@ -71,7 +91,7 @@ export default function Page2() {
             <div
               className={`w-full lg:w-[350px] h-[300px] lg:h-[350px] relative bg-[#6d6d6d] rounded-[35px] cursor-pointer ${
                 isSubmitting ? "pointer-events-none opacity-50" : ""
-              }`}
+              } ${selectedCard === 1 ? "border-4 border-[#bbe94a]" : ""}`}
               onClick={() => handleCardClick(1)}
             >
               <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white font-bold">
@@ -93,7 +113,7 @@ export default function Page2() {
             <div
               className={`w-full lg:w-[350px] h-[300px] lg:h-[350px] relative bg-[#6d6d6d] rounded-[35px] cursor-pointer ${
                 isSubmitting ? "pointer-events-none opacity-50" : ""
-              }`}
+              } ${selectedCard === 2 ? "border-4 border-[#bbe94a]" : ""}`}
               onClick={() => handleCardClick(2)}
             >
               <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white font-bold">

@@ -33,7 +33,7 @@ export default function QuestionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center p-4 lg:pt-6">
+    <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center pl-4 lg:pt-6">
       <div className="block sm:hidden sm:ml-2 ">
         <img
           src="Union.PNG"
@@ -57,24 +57,24 @@ export default function QuestionPage() {
         {error && <div className="text-[#f91c1c] text-sm mb-4">{error}</div>}
 
         <div className="text-center w-full">
-          <div className="flex justify-between  gap-6 lg:gap-4 w-full">
+          <div className="flex justify-between gap-2 lg:gap-4 w-full sm:mt-2">
             {/* Card 1 - Nike Orange */}
             <div
-              className={`w-full lg:w-[350px] h-[300px]  lg:h-[350px] relative bg-[#6d6d6d] rounded-[35px] cursor-pointer ${
+              className={`w-full lg:w-[350px] h-[200px] lg:h-[350px] relative bg-[#6d6d6d] rounded-[35px] cursor-pointer ${
                 isSubmitting ? "pointer-events-none opacity-50" : ""
               } ${selectedCard === 1 ? "border-4 border-[#bbe94a]" : ""}`}
               onClick={() => handleCardClick(1)}
             >
-              <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white ">
+              <div className="absolute  pt-3 top-2 left-1/2 transform -translate-x-1/2 text-white text-sm sm:text-base overflow-hidden whitespace-nowrap text-ellipsis">
                 <h3>Nike Orange</h3>
               </div>
               <img
                 src="Rectangle1.PNG"
                 alt="Nike Orange"
-                className="absolute inset-0 max-w-[80%] max-h-[80%] object-contain rounded-[35px] top-1/2 transform -translate-y-1/2 left-1/2 -translate-x-1/2"
+                className="absolute inset-0 max-w-[70%] max-h-[70%] object-contain rounded-[35px] top-1/2 transform -translate-y-1/2 left-1/2 -translate-x-1/2"
               />
               {selectedCard === 1 && (
-                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2">
+                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 sm:-top-2 md:-top-3">
                   <div className="w-[30px] h-[30px] bg-white rounded-[25px] border-4 border-black" />
                 </div>
               )}
@@ -82,26 +82,27 @@ export default function QuestionPage() {
 
             {/* Card 2 - Nike Black */}
             <div
-              className={`w-full lg:w-[350px] h-[300px] lg:h-[350px] relative bg-[#6d6d6d] rounded-[35px] cursor-pointer ${
+              className={`w-full lg:w-[350px] h-[200px] lg:h-[350px] relative bg-[#6d6d6d] rounded-[35px] cursor-pointer ${
                 isSubmitting ? "pointer-events-none opacity-50" : ""
               } ${selectedCard === 2 ? "border-4 border-[#bbe94a]" : ""}`}
               onClick={() => handleCardClick(2)}
             >
-              <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white ">
+              <div className="absolute pt-3 top-2 left-1/2 transform -translate-x-1/2 text-white text-sm sm:text-base overflow-hidden whitespace-nowrap text-ellipsis">
                 <h3>Nike Black</h3>
               </div>
               <img
                 src="Rectangle2.PNG"
                 alt="Nike Black"
-                className="absolute inset-0 max-w-[80%] max-h-[80%] object-contain rounded-[35px] top-1/2 transform -translate-y-1/2 left-1/2 -translate-x-1/2"
+                className="absolute inset-0 max-w-[70%] max-h-[70%] object-contain rounded-[35px] top-1/2 transform -translate-y-1/2 left-1/2 -translate-x-1/2"
               />
               {selectedCard === 2 && (
-                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2">
+                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 sm:-top-2 md:-top-3">
                   <div className="w-[30px] h-[30px] bg-white rounded-[25px] border-4 border-black" />
                 </div>
               )}
             </div>
           </div>
+
           <div className="text-[#f91c1c] text-xl mt-4">Please select one</div>
 
           <div className="flex justify-between gap-3 w-full mt-6">

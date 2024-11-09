@@ -21,18 +21,23 @@ export default function Page2() {
   return (
     <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center justify-center p-4 lg:pt-4">
       <div className="max-w-2xl w-full mx-auto p-6 flex flex-col items-center justify-center">
-        {/* Adjusted top margins for both mobile and larger screens */}
         <h3 className="text font-bold text-center mb-4 mt-4 sm:mt-2 lg:mt-4">
           Question 2
         </h3>
         <h1 className="text-3xl font-bold text-center mb-6 mt-2 sm:mt-4 lg:mt-4">
-          How important are these aspects for you?
+          <span className="hidden sm:block">
+            How important are these aspects for you?
+          </span>
+
+          <span className="block sm:hidden">
+            Which attributes make the difference for you?
+          </span>
         </h1>
 
         {/* Rating Section */}
         {["comfort", "looks", "price"].map((aspect, idx) => (
           <div key={aspect} className="w-full mb-6 mt-4 sm:mt-4 lg:mt-4">
-            <div className="flex justify-between items-center bg-white rounded-[40px] p-4">
+            <div className="flex justify-between items-center bg-white rounded-[40px] p-4 sm:p-3 sm:h-14 sm:h-12">
               <span className="text-lg font-semibold text-gray-800 capitalize">
                 {aspect}
               </span>
@@ -55,38 +60,36 @@ export default function Page2() {
             )}
           </div>
         ))}
-
-        {/* Navigation Buttons */}
-        <div className="flex justify-between mt-6 gap-4 w-full">
+        <div className="flex justify-between gap-3 w-full mt-6">
           {/* Back Button */}
           <Link
             href="/page2"
-            className="w-full sm:w-40 h-16 px-[35px] py-2 bg-[#edb6d2] hover:bg-[#d79c9e] text-black font-semibold text-xl font-['Signika'] rounded-[35px] flex justify-center items-center gap-2 mt-4 sm:mt-6 lg:mt-4"
+            className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#edb6d2] hover:bg-[#d79c9e] rounded-full flex items-center justify-center transition-colors"
           >
-            <div className="w-4 h-4">
+            <div className="w-3 sm:w-4 h-3 sm:h-4 mr-1">
               <img
                 src="Union3.PNG"
-                alt="Union Icon"
-                className="w-full h-full object-contain filter grayscale"
+                alt="Back"
+                className="w-full h-full object-contain filter grayscale "
               />
             </div>
-            <div className="text-black text-xl font-bold ml-2 font-['Signika']">
+            <span className="text-black text-base sm:text-xl font-bold ml-3 sm:ml-3">
               Back
-            </div>
+            </span>
           </Link>
 
-          {/* Next Button */}
+          {/* Back to Home Button */}
           <Link
             href="/page4"
-            className="w-full sm:w-40 h-16 px-[35px] py-2 bg-[#bbe94a] hover:bg-[#a1d26c] text-black font-semibold text-xl font-['Signika'] rounded-[35px] flex justify-center items-center gap-2 mt-4 sm:mt-6 lg:mt-4"
+            className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#ffffff] hover:bg-[#e1e0e0] rounded-full flex items-center justify-center transition-colors"
           >
-            <div className="text-black text-xl font-bold mr-2 font-['Signika']">
+            <span className="text-black text-base sm:text-xl font-bold mr-3 truncate">
               Next
-            </div>
-            <div className="w-4 h-4">
+            </span>
+            <div className="w-3 sm:w-4 h-3 sm:h-4 ml-1 sm:ml-2 flex-shrink-0">
               <img
                 src="Union2.PNG"
-                alt="Union Icon"
+                alt="Home"
                 className="w-full h-full object-contain filter grayscale"
               />
             </div>

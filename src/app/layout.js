@@ -1,6 +1,14 @@
 import localFont from "next/font/local";
 import "./globals.css";
 
+import { Signika } from "next/font/google";
+
+const signika = Signika({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-signika",
+});
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -20,11 +28,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={signika.className}>{children}</body>
     </html>
   );
 }

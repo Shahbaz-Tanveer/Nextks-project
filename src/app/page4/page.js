@@ -47,38 +47,36 @@ export default function Home() {
           <h1 className="text-2xl lg:text-3xl text-white font-bold font-['Signika'] text-center lg:text-right">
             for your feedback!
           </h1>
-
-          {/* Navigation Buttons */}
-          <div className="flex justify-between mt-6 gap-4 w-full">
+          <div className="flex justify-between gap-3 w-full mt-6">
             {/* Back Button */}
             <Link
               href="/page3"
-              className="w-full sm:w-40 h-16 px-[35px] py-2 bg-[#edb6d2] hover:bg-[#d79c9e] text-black font-semibold text-xl font-['Signika'] rounded-[35px] flex justify-center items-center gap-2 mt-4 sm:mt-6 lg:mt-4"
+              className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#edb6d2] hover:bg-[#d79c9e] rounded-full flex items-center justify-center transition-colors"
             >
-              <div className="w-4 h-4">
+              <div className="w-3 sm:w-4 h-3 sm:h-4 mr-1">
                 <img
                   src="Union3.PNG"
-                  alt="Union Icon"
-                  className="w-full h-full object-contain filter grayscale"
+                  alt="Back"
+                  className="w-full h-full object-contain filter grayscale "
                 />
               </div>
-              <div className="text-black text-xl font-bold ml-2 font-['Signika']">
+              <span className="text-black text-base sm:text-xl font-bold ml-3 sm:ml-3">
                 Back
-              </div>
+              </span>
             </Link>
 
-            {/* Next Button */}
+            {/* Back to Home Button */}
             <Link
               href="/"
-              className="w-full sm:w-40 lg:w-80 h-16 px-[35px] py-2 bg-[#ffffff]  text-black font-semibold text-xl font-['Signika'] rounded-[35px] flex justify-center items-center gap-2 mt-4 sm:mt-6 lg:mt-4"
+              className="w-40 sm:w-52 md:w-60 h-12 sm:h-16 px-3 sm:px-6 bg-white rounded-full flex items-center justify-center"
             >
-              <div className="text-black text-xl font-bold mr-2 font-['Signika']">
+              <span className="text-black text-base sm:text-xl font-bold mr-3 truncate">
                 Back To Home
-              </div>
-              <div className="w-4 h-4">
+              </span>
+              <div className="w-3 sm:w-4 h-3 sm:h-4 ml-1 sm:ml-2 flex-shrink-0">
                 <img
                   src="Union2.PNG"
-                  alt="Union Icon"
+                  alt="Home"
                   className="w-full h-full object-contain filter grayscale"
                 />
               </div>

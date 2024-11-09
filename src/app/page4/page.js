@@ -7,7 +7,7 @@ export default function Home() {
         <img
           src="Union.PNG"
           alt="Your Image"
-          className="w-[55%] h-auto mx-auto left-0 top-0 pl-10 absolute xl:w-[20%] xl:left-[10%] xl:top-[6%]"
+          className="w-[55%] h-auto mx-auto left-0 top-0 pl-10 absolute xl:w-[20%] xl:left-[8%] xl:top-[2%]"
         />
 
         <img

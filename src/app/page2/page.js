@@ -13,7 +13,7 @@ export default function QuestionPage() {
   const handleCardClick = async (cardNumber) => {
     setSelectedCard(cardNumber);
     setError("");
-    // Determine the answer based on the selected card
+
     const answer = cardNumber === 1 ? "Nike Orange" : "Nike Black";
 
     setIsSubmitting(true);

@@ -82,9 +82,9 @@ export default function QuestionPage() {
 
           {/* Rating Section for each part of Q2 */}
           {[
-            { key: "comfort", label: "Comfort (Part 1)" },
-            { key: "looks", label: "Looks (Part 2)" },
-            { key: "price", label: "Price (Part 3)" },
+            { key: "comfort", label: "Comfort " },
+            { key: "looks", label: "Looks " },
+            { key: "price", label: "Price " },
           ].map(({ key, label }) => (
             <div key={key} className="w-full mb-6 mt-4 sm:mt-4 lg:mt-4">
               <div className="flex justify-between items-center bg-white rounded-[40px] p-4 sm:p-3 sm:h-14 sm:h-12 lg:p-4">

@@ -2,30 +2,51 @@
 
 import axios from "axios";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SurveyComponent() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
+
+  // Check if email is already saved in localStorage
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("emailAddress");
+    if (savedEmail) {
+      setEmail(savedEmail);
+    }
+  }, []);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setError(null);
   };
 
-  const handleStartSurvey = async () => {
+  const handleStartSurvey = async (e) => {
+    if (!email) {
+      e.preventDefault();
+      setError("Please enter an email address");
+      return;
+    }
+
     try {
+      // First submit the email
       const response = await axios.post(
         "http://localhost:5000/api/submit-email",
         {
           email: email,
         }
       );
-      if (response.status === 200) {
+
+      if (response.data.success) {
         console.log("Email submitted successfully");
         localStorage.setItem("emailAddress", email);
+        // Don't prevent default here to allow navigation
+      } else {
+        e.preventDefault();
+        setError("Failed to submit email. Please try again.");
       }
     } catch (error) {
+      e.preventDefault();
       console.error("Error submitting email:", error);
       setError("Failed to submit email. Please try again.");
     }
@@ -36,12 +57,12 @@ export default function SurveyComponent() {
       <div className="w-full max-w-6xl relative flex flex-col lg:flex-row items-center lg:items-start gap-6 pt-4 lg:h-screen">
         <div className="relative w-full lg:w-1/2 aspect-square lg:aspect-auto lg:h-full">
           {/* Image placeholders */}
-          <div className="top-0">
-            <div className="top-2">
+          <div>
+            <div>
               <img
                 src="Union.PNG"
                 alt="Placeholder"
-                className="w-[50%] md:w-[55%] h-auto object-contain mix-blend-overlay opacity-90 brightness-200 contrast-125 sm:top-10"
+                className="w-[50%] md:w-[55%] h-auto object-contain mix-blend-overlay opacity-90 brightness-200 contrast-125 sm:top-10 xl:mt-[5%]  xl:ml-[15%] "
               />
             </div>
           </div>
@@ -94,6 +115,7 @@ export default function SurveyComponent() {
                 value={email}
                 onChange={handleEmailChange}
               />
+              {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
             </div>
           </div>
 
@@ -101,13 +123,7 @@ export default function SurveyComponent() {
             <Link
               href="/page2"
               passHref
-              onClick={(e) => {
-                if (!email || error) {
-                  e.preventDefault();
-                } else {
-                  handleStartSurvey();
-                }
-              }}
+              onClick={handleStartSurvey}
               className={`self-stretch h-16 lg:h-20 px-[35px] py-2 bg-[#bbe94a] rounded-[35px] flex justify-between items-center ${
                 !email || error ? "cursor-not-allowed opacity-50" : ""
               }`}

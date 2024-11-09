@@ -1,26 +1,57 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function QuestionPage() {
   const email = localStorage.getItem("emailAddress");
+  const [isLoading, setIsLoading] = useState(true);
 
   const [answers, setAnswers] = useState({
     comfort: null,
     looks: null,
     price: null,
   });
+
   const [error, setError] = useState({
     comfort: false,
     looks: false,
     price: false,
   });
 
-  // Check if all parts are answered to enable the "Next" button
+  useEffect(() => {
+    const loadProgress = async () => {
+      try {
+        if (!email) {
+          setIsLoading(false);
+          return;
+        }
+
+        const response = await axios.get(
+          `http://localhost:5000/api/progress/${email}`
+        );
+
+        if (response.data.success && response.data.data) {
+          const { Q2_part1, Q2_part2, Q2_part3 } = response.data.data;
+
+          setAnswers({
+            comfort: Q2_part1 || null,
+            looks: Q2_part2 || null,
+            price: Q2_part3 || null,
+          });
+        }
+      } catch (error) {
+        console.error("Error loading progress:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProgress();
+  }, [email]);
+
   const isAllAnswered = Object.values(answers).every((value) => value !== null);
 
-  // Handle dot click and submit the answer for the part
   const handleDotClick = async (key, value) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -32,10 +63,8 @@ export default function QuestionPage() {
     }));
 
     try {
-      // Define the part number based on the key
       const partNumber = key === "comfort" ? 1 : key === "looks" ? 2 : 3;
 
-      // Send the answer to the API
       await axios.post("http://localhost:5000/api/submit-question", {
         email,
         questionNumber: 2,
@@ -52,19 +81,36 @@ export default function QuestionPage() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center justify-center lg:pt-4">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center justify-center lg:pt-4">
-      <div className="block sm:hidden sm:ml-2 ">
-        <img
-          src="Union.PNG"
-          alt="Your Image"
-          className="w-1/2 h-auto mx-auto top-0 left-0 ml-2 z-10 opacity-65"
-        />
-        <img
-          src="1stshoe.PNG"
-          alt="Your Image"
-          className="w-3/4 h-auto mx-auto absolute top-5 left-12 filter mix-blend-overlay"
-        />
+    <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center justify-center ">
+      <div className="block sm:hidden absolute -top-0 left-2 w-full">
+        <div className="">
+          <img
+            src="Union.PNG"
+            alt="Your Image"
+            className="w-[55%] h-auto mx-auto left-0 top-0 pl-10 absolute xl:w-[20%] xl:left-[8%] xl:top-[2%]"
+          />
+
+          <img
+            src="1stshoe.PNG"
+            alt="Your Image"
+            className="w-3/4 h-auto mx-auto absolute top-4 left-12 filter mix-blend-overlay xl:w-1/3 xl:left-[3%] xl:mt-20"
+          />
+
+          <img
+            src="Ellipse.PNG"
+            alt="Your Image"
+            className="w-3/4 h-auto mx-auto absolute left-12 filter mix-blend-overlay hidden lg:block xl:w-1/3 xl:left-[5%] xl:mt-[20%] xl:pt-[15%]"
+          />
+        </div>
       </div>
       <div className="sm:mt-1 lg:mt-8 z-10">
         <div className="max-w-2xl w-full mx-auto p-6 flex flex-col items-center justify-center z-30 sm:mt-3">
@@ -80,7 +126,6 @@ export default function QuestionPage() {
             </span>
           </h1>
 
-          {/* Rating Section for each part of Q2 */}
           {[
             { key: "comfort", label: "Comfort " },
             { key: "looks", label: "Looks " },
@@ -114,9 +159,7 @@ export default function QuestionPage() {
             </div>
           ))}
 
-          {/* Back and Next Buttons */}
           <div className="flex justify-between gap-3 w-full mt-6">
-            {/* Back Button */}
             <Link
               href="/page2"
               className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#edb6d2] hover:bg-[#d79c9e] rounded-full flex items-center justify-center transition-colors"
@@ -133,7 +176,6 @@ export default function QuestionPage() {
               </span>
             </Link>
 
-            {/* Next Button */}
             <Link
               href={isAllAnswered ? "/page4" : "#"}
               className={`w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 ${

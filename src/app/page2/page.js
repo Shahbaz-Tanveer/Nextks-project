@@ -1,14 +1,51 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function QuestionPage() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Remove the email from component level since we'll get it fresh each time
+  useEffect(() => {
+    const loadProgress = async () => {
+      try {
+        const currentEmail = localStorage.getItem("emailAddress");
+
+        if (!currentEmail) {
+          setError("Email not found. Please return to the previous page.");
+          setIsLoading(false);
+          return;
+        }
+
+        const response = await axios.get(
+          `http://localhost:5000/api/progress/${currentEmail}`
+        );
+
+        if (response.data.success && response.data.data.Q1) {
+          // Set the correct card based on the saved answer
+          const savedAnswer = response.data.data.Q1;
+          setSelectedCard(
+            savedAnswer === "Nike Orange"
+              ? 1
+              : savedAnswer === "Nike Black"
+              ? 2
+              : null
+          );
+        }
+      } catch (error) {
+        console.error("Error loading progress:", error);
+        setError("Error loading your previous answers.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProgress();
+  }, []);
+
   const handleCardClick = async (cardNumber) => {
     // Prevent multiple submissions or clicking the same card
     if (isSubmitting || selectedCard === cardNumber) {
@@ -18,7 +55,6 @@ export default function QuestionPage() {
     try {
       setIsSubmitting(true);
 
-      // Get fresh email value right before making the API call
       const currentEmail = localStorage.getItem("emailAddress");
 
       if (!currentEmail) {
@@ -26,28 +62,34 @@ export default function QuestionPage() {
         return;
       }
 
-      // Prepare the answer based on the clicked card number directly
       const answer = cardNumber === 1 ? "Nike Orange" : "Nike Black";
 
-      // Make API call and update state simultaneously
       await Promise.all([
         axios.post("http://localhost:5000/api/submit-question", {
-          email: currentEmail, // Use the fresh email value
+          email: currentEmail,
           questionNumber: 1,
           answer,
         }),
         Promise.resolve(setSelectedCard(cardNumber)),
       ]);
 
-      setError(""); // Clear any existing errors
+      setError("");
     } catch (error) {
       console.error("Error submitting answer:", error);
       setError("An error occurred. Please try again.");
-      setSelectedCard(null); // Reset selection on error
+      setSelectedCard(null);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center pl-4 lg:pt-6">

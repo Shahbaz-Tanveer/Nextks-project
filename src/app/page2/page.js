@@ -1,13 +1,53 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Page2() {
   const [selectedCard, setSelectedCard] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [error, setError] = useState(""); // For error handling
 
-  const handleCardClick = (cardId) => {
+  useEffect(() => {
+    // Fetch email from localStorage when component mounts
+    const storedEmail = localStorage.getItem("emailAddress");
+    if (storedEmail) {
+      setEmail(storedEmail);
+    } else {
+      setError("Email not found. Please go back and enter your email.");
+    }
+  }, []);
+
+  const handleCardClick = async (cardId) => {
     setSelectedCard(cardId);
+
+    // Send POST request with the email and selected answer
+    if (email) {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/submit-question",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email,
+              questionNumber: 1, // Since it's question 1
+              answer: cardId === 1 ? "1" : "2", // 1 for Nike Orange, 2 for Nike Black
+            }),
+          }
+        );
+
+        if (response.ok) {
+          console.log("Answer submitted successfully");
+        } else {
+          console.error("Error submitting answer");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
   };
 
   return (
@@ -20,7 +60,6 @@ export default function Page2() {
           What is your preferred choice?
         </h1>
         <div className="text-center w-full">
-          {/* Changed to flex-col for mobile and maintained row for desktop */}
           <div className="flex flex-col lg:flex-row justify-between gap-6 lg:gap-4 w-full">
             {/* Card 1 */}
             <div
@@ -85,10 +124,12 @@ export default function Page2() {
               </span>
             </Link>
 
-            {/* Back to Home Button */}
+            {/* Next Button */}
             <Link
               href="/page3"
-              className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6  bg-[#bbe94a] hover:bg-[#a1d26c] rounded-full flex items-center justify-center transition-colors"
+              className={`w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#bbe94a] hover:bg-[#a1d26c] rounded-full flex items-center justify-center transition-colors ${
+                !selectedCard ? "cursor-not-allowed opacity-50" : ""
+              }`}
             >
               <span className="text-black text-base sm:text-xl font-bold mr-3 truncate">
                 Next

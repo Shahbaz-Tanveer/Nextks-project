@@ -1,22 +1,41 @@
 "use client";
 
+import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 
 export default function Page2() {
-  // State to track selected scores for each aspect
-  const [scores, setScores] = useState({
+  // State to track selected answers for each question
+  const [answers, setAnswers] = useState({
     comfort: null,
     looks: null,
     price: null,
   });
 
-  const handleDotClick = (aspect, score) => {
-    setScores((prevScores) => ({
-      ...prevScores,
+  // Function to handle dot click and send API request
+  const handleDotClick = async (aspect, score) => {
+    setAnswers((prevAnswers) => ({
+      ...prevAnswers,
       [aspect]: score,
     }));
+
+    const email = localStorage.getItem("emailAddress");
+
+    if (email) {
+      try {
+        await axios.post("http://localhost:5000/api/submit-question", {
+          email,
+          questionNumber: aspect === "comfort" ? 1 : aspect === "looks" ? 2 : 3,
+          answer: score,
+        });
+      } catch (error) {
+        console.error("Error submitting the answer:", error);
+      }
+    }
   };
+
+  // Check if all questions are answered to enable navigation
+  const isAllAnswered = Object.values(answers).every((score) => score !== null);
 
   return (
     <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center justify-center lg:pt-4 ">
@@ -24,9 +43,8 @@ export default function Page2() {
         <img
           src="Union.PNG"
           alt="Your Image"
-          className="w-1/2 h-auto mx-auto  top-0 left-0 ml-2 z-10 opacity-65"
+          className="w-1/2 h-auto mx-auto top-0 left-0 ml-2 z-10 opacity-65"
         />
-
         <img
           src="1stshoe.PNG"
           alt="Your Image"
@@ -42,15 +60,14 @@ export default function Page2() {
             <span className="hidden sm:block">
               How important are these aspects for you?
             </span>
-
             <span className="block sm:hidden">
               Which attributes make the difference for you?
             </span>
           </h1>
 
-          {/* Rating Section */}
-          {["comfort", "looks", "price"].map((aspect, idx) => (
-            <div key={aspect} className="w-full mb-6 mt-4 sm:mt-4 lg:mt-4 ">
+          {/* Rating Section for each question */}
+          {["comfort", "looks", "price"].map((aspect) => (
+            <div key={aspect} className="w-full mb-6 mt-4 sm:mt-4 lg:mt-4">
               <div className="flex justify-between items-center bg-white rounded-[40px] p-4 sm:p-3 sm:h-14 sm:h-12 lg:p-4">
                 <span className="text-lg font-semibold text-gray-800 capitalize">
                   {aspect}
@@ -61,19 +78,21 @@ export default function Page2() {
                       key={dot}
                       onClick={() => handleDotClick(aspect, dot)}
                       className={`w-4 h-4 rounded-full cursor-pointer transition-colors ${
-                        scores[aspect] >= dot ? "bg-black" : "bg-gray-300"
+                        answers[aspect] >= dot ? "bg-black" : "bg-gray-300"
                       }`}
                     ></span>
                   ))}
                 </div>
               </div>
-              {scores[aspect] === null && (
+              {answers[aspect] === null && (
                 <div className="text-[#f91c1c] text-sm mt-1 sm:mt-2 lg:mt-2">
                   Please select a score
                 </div>
               )}
             </div>
           ))}
+
+          {/* Back and Next Buttons */}
           <div className="flex justify-between gap-3 w-full mt-6">
             {/* Back Button */}
             <Link
@@ -84,7 +103,7 @@ export default function Page2() {
                 <img
                   src="Union3.PNG"
                   alt="Back"
-                  className="w-full h-full object-contain filter grayscale "
+                  className="w-full h-full object-contain filter grayscale"
                 />
               </div>
               <span className="text-black text-base sm:text-xl font-bold ml-3 sm:ml-3">
@@ -92,10 +111,14 @@ export default function Page2() {
               </span>
             </Link>
 
-            {/* Back to Home Button */}
+            {/* Next Button */}
             <Link
-              href="/page4"
-              className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#ffffff] hover:bg-[#e1e0e0] rounded-full flex items-center justify-center transition-colors"
+              href={isAllAnswered ? "/page4" : "#"}
+              className={`w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 ${
+                isAllAnswered
+                  ? "bg-[#ffffff] hover:bg-[#e1e0e0]"
+                  : "bg-gray-300 cursor-not-allowed"
+              } rounded-full flex items-center justify-center transition-colors`}
             >
               <span className="text-black text-base sm:text-xl font-bold mr-3 truncate">
                 Next

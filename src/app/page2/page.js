@@ -33,8 +33,20 @@ export default function QuestionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center p-4 lg:pt-4">
-      <div className="w-full max-w-2xl mx-auto p-4 lg:p-6 flex flex-col items-center justify-center h-full">
+    <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center p-4 lg:pt-6">
+      <div className="block sm:hidden sm:ml-2 ">
+        <img
+          src="Union.PNG"
+          alt="Your Image"
+          className="w-1/2 h-auto mx-auto top-0 left-0 ml-2 z-10 opacity-65"
+        />
+        <img
+          src="1stshoe.PNG"
+          alt="Your Image"
+          className="w-3/4 h-auto mx-auto absolute top-5 left-12 filter mix-blend-overlay"
+        />
+      </div>
+      <div className="w-full max-w-2xl mx-auto p-4 lg:pt-8 flex flex-col items-center justify-center h-full">
         <h3 className="text-white font-bold text-center mb-4 lg:mb-8">
           Question 1
         </h3>
@@ -45,15 +57,15 @@ export default function QuestionPage() {
         {error && <div className="text-[#f91c1c] text-sm mb-4">{error}</div>}
 
         <div className="text-center w-full">
-          <div className="flex flex-col lg:flex-row justify-between gap-6 lg:gap-4 w-full">
+          <div className="flex justify-between  gap-6 lg:gap-4 w-full">
             {/* Card 1 - Nike Orange */}
             <div
-              className={`w-full lg:w-[350px] h-[300px] lg:h-[350px] relative bg-[#6d6d6d] rounded-[35px] cursor-pointer ${
+              className={`w-full lg:w-[350px] h-[300px]  lg:h-[350px] relative bg-[#6d6d6d] rounded-[35px] cursor-pointer ${
                 isSubmitting ? "pointer-events-none opacity-50" : ""
               } ${selectedCard === 1 ? "border-4 border-[#bbe94a]" : ""}`}
               onClick={() => handleCardClick(1)}
             >
-              <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white font-bold">
+              <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white ">
                 <h3>Nike Orange</h3>
               </div>
               <img
@@ -75,7 +87,7 @@ export default function QuestionPage() {
               } ${selectedCard === 2 ? "border-4 border-[#bbe94a]" : ""}`}
               onClick={() => handleCardClick(2)}
             >
-              <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white font-bold">
+              <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white ">
                 <h3>Nike Black</h3>
               </div>
               <img
@@ -90,6 +102,7 @@ export default function QuestionPage() {
               )}
             </div>
           </div>
+          <div className="text-[#f91c1c] text-xl mt-4">Please select one</div>
 
           <div className="flex justify-between gap-3 w-full mt-6">
             {/* Back Button */}
@@ -97,7 +110,14 @@ export default function QuestionPage() {
               href="/"
               className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#edb6d2] hover:bg-[#d79c9e] rounded-full flex items-center justify-center transition-colors"
             >
-              <span className="text-black text-base sm:text-xl font-bold ml-3 sm:ml-3">
+              <div className="w-3 sm:w-4 h-3 sm:h-4 mr-1">
+                <img
+                  src="Union3.PNG"
+                  alt="Back"
+                  className="w-full h-full object-contain filter grayscale"
+                />
+              </div>
+              <span className="text-black text-base sm:text-xl font-extrabold ml-3 sm:ml-3">
                 Back
               </span>
             </Link>
@@ -107,9 +127,16 @@ export default function QuestionPage() {
               href="/page3"
               className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#bbe94a] hover:bg-[#a1d26c] rounded-full flex items-center justify-center transition-colors"
             >
-              <span className="text-black text-base sm:text-xl font-bold mr-3 truncate">
+              <span className="text-black text-base sm:text-xl font-extrabold mr-3 truncate">
                 Next
-              </span>
+              </span>{" "}
+              <div className="w-3 sm:w-4 h-3 sm:h-4 ml-1 sm:ml-2 flex-shrink-0">
+                <img
+                  src="Union2.PNG"
+                  alt="Home"
+                  className="w-full h-full object-contain filter grayscale"
+                />
+              </div>
             </Link>
           </div>
         </div>

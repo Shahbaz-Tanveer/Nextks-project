@@ -72,7 +72,9 @@ export default function SurveyComponent() {
           <div className="lg:ml-10">
             <div className="bg-[#edb6d2] rounded-3xl p-4 lg:p-8">
               <div className="space-y-2 lg:space-y-4 text-black">
-                <span className="text-xl lg:text-2xl block">Welcome!</span>
+                <span className="text-xl lg:text-2xl block font-extrabold">
+                  Welcome!
+                </span>
                 <p className="text-base lg:text-lg ">
                   We're excited to hear your thoughts, ideas, and insights.
                   Don't worry about right or wrong answers—just speak from the
@@ -88,7 +90,7 @@ export default function SurveyComponent() {
               <input
                 type="email"
                 placeholder="Enter email address"
-                className="w-full h-12 lg:h-14 px-4 py-3 bg-white rounded-3xl border border-[#cdcdcd] text-sm font-['Signika'] text-[#a2a2a2]"
+                className="w-full h-12 lg:h-14 px-4 py-3 bg-white rounded-3xl border border-[#cdcdcd] text-sm font-bold text-[#a2a2a2]"
                 value={email}
                 onChange={handleEmailChange}
               />

@@ -138,7 +138,7 @@ export default function QuestionPage() {
               href={isAllAnswered ? "/page4" : "#"}
               className={`w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 ${
                 isAllAnswered
-                  ? "bg-[#ffffff] hover:bg-[#e1e0e0]"
+                  ? "bg-[#ffffff] hover:bg-[#DAD8D8]"
                   : "bg-gray-300 cursor-not-allowed"
               } rounded-full flex items-center justify-center transition-colors`}
             >

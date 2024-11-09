@@ -8,25 +8,42 @@ export default function QuestionPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const email = localStorage.getItem("emailAddress");
-
+  // Remove the email from component level since we'll get it fresh each time
   const handleCardClick = async (cardNumber) => {
-    setSelectedCard(cardNumber);
-    setError("");
+    // Prevent multiple submissions or clicking the same card
+    if (isSubmitting || selectedCard === cardNumber) {
+      return;
+    }
 
-    const answer = cardNumber === 1 ? "Nike Orange" : "Nike Black";
-
-    setIsSubmitting(true);
     try {
-      // Send the answer to the API immediately upon card selection
-      await axios.post("http://localhost:5000/api/submit-question", {
-        email,
-        questionNumber: 1,
-        answer,
-      });
+      setIsSubmitting(true);
+
+      // Get fresh email value right before making the API call
+      const currentEmail = localStorage.getItem("emailAddress");
+
+      if (!currentEmail) {
+        setError("Email not found. Please return to the previous page.");
+        return;
+      }
+
+      // Prepare the answer based on the clicked card number directly
+      const answer = cardNumber === 1 ? "Nike Orange" : "Nike Black";
+
+      // Make API call and update state simultaneously
+      await Promise.all([
+        axios.post("http://localhost:5000/api/submit-question", {
+          email: currentEmail, // Use the fresh email value
+          questionNumber: 1,
+          answer,
+        }),
+        Promise.resolve(setSelectedCard(cardNumber)),
+      ]);
+
+      setError(""); // Clear any existing errors
     } catch (error) {
       console.error("Error submitting answer:", error);
       setError("An error occurred. Please try again.");
+      setSelectedCard(null); // Reset selection on error
     } finally {
       setIsSubmitting(false);
     }
@@ -63,7 +80,7 @@ export default function QuestionPage() {
               className={`w-full lg:w-[350px] h-[200px] lg:h-[350px] relative bg-[#6d6d6d] rounded-[35px] cursor-pointer ${
                 isSubmitting ? "pointer-events-none opacity-50" : ""
               } ${selectedCard === 1 ? "border-4 border-[#bbe94a]" : ""}`}
-              onClick={() => handleCardClick(1)}
+              onClick={() => !isSubmitting && handleCardClick(1)}
             >
               <div className="absolute  pt-3 top-2 left-1/2 transform -translate-x-1/2 text-white text-sm sm:text-base overflow-hidden whitespace-nowrap text-ellipsis">
                 <h3>Nike Orange</h3>
@@ -85,7 +102,7 @@ export default function QuestionPage() {
               className={`w-full lg:w-[350px] h-[200px] lg:h-[350px] relative bg-[#6d6d6d] rounded-[35px] cursor-pointer ${
                 isSubmitting ? "pointer-events-none opacity-50" : ""
               } ${selectedCard === 2 ? "border-4 border-[#bbe94a]" : ""}`}
-              onClick={() => handleCardClick(2)}
+              onClick={() => !isSubmitting && handleCardClick(2)}
             >
               <div className="absolute pt-3 top-2 left-1/2 transform -translate-x-1/2 text-white text-sm sm:text-base overflow-hidden whitespace-nowrap text-ellipsis">
                 <h3>Nike Black</h3>

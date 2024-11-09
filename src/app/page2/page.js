@@ -1,73 +1,32 @@
 "use client";
-
 import axios from "axios";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function Page2() {
+export default function QuestionPage() {
   const [selectedCard, setSelectedCard] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    // Get email from local storage and fetch progress
-    const storedEmail = localStorage.getItem("emailAddress");
-    if (storedEmail) {
-      setEmail(storedEmail);
-      fetchProgress(storedEmail);
-    } else {
-      setError("Email not found. Please go back and enter your email.");
-    }
-  }, []);
+  const email = localStorage.getItem("emailAddress");
 
-  // Fetch progress for the current email
-  const fetchProgress = async (email) => {
+  const handleCardClick = async (cardNumber) => {
+    setSelectedCard(cardNumber);
+    setError("");
+    // Determine the answer based on the selected card
+    const answer = cardNumber === 1 ? "Nike Orange" : "Nike Black";
+
+    setIsSubmitting(true);
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/progress/${email}`
-      );
-      if (response.status === 200 && response.data.success) {
-        const { step, data } = response.data.data;
-        if (step >= 1 && data.Q1) {
-          // Set selected card based on previously answered question
-          setSelectedCard(data.Q1 === "Nike Orange" ? 1 : 2);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching progress:", error);
-      setError("Failed to fetch your progress. Please try again.");
-    }
-  };
-
-  const handleCardClick = async (cardId) => {
-    try {
-      setIsSubmitting(true);
-      setSelectedCard(cardId);
-
-      const answerText = cardId === 1 ? "Nike Orange" : "Nike Black";
-
-      if (!email) {
-        console.error("No email found");
-        setError("Email not found. Please go back and enter your email.");
-        return;
-      }
-
-      const response = await axios.post(
-        "http://localhost:5000/api/submit-question",
-        {
-          email: email,
-          questionNumber: 1,
-          answer: answerText,
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Answer submitted successfully:", answerText);
-      }
+      // Send the answer to the API immediately upon card selection
+      await axios.post("http://localhost:5000/api/submit-question", {
+        email,
+        questionNumber: 1,
+        answer,
+      });
     } catch (error) {
       console.error("Error submitting answer:", error);
-      setError("Failed to submit your answer. Please try again.");
+      setError("An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -132,25 +91,12 @@ export default function Page2() {
             </div>
           </div>
 
-          {!selectedCard && (
-            <div className="text-[#f91c1c] text-xl lg:text-2xl font-normal font-['Signika'] mt-6">
-              Please select one
-            </div>
-          )}
-
           <div className="flex justify-between gap-3 w-full mt-6">
             {/* Back Button */}
             <Link
               href="/"
               className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#edb6d2] hover:bg-[#d79c9e] rounded-full flex items-center justify-center transition-colors"
             >
-              <div className="w-3 sm:w-4 h-3 sm:h-4 mr-1">
-                <img
-                  src="Union3.PNG"
-                  alt="Back"
-                  className="w-full h-full object-contain filter grayscale"
-                />
-              </div>
               <span className="text-black text-base sm:text-xl font-bold ml-3 sm:ml-3">
                 Back
               </span>
@@ -158,30 +104,12 @@ export default function Page2() {
 
             {/* Next Button */}
             <Link
-              href={selectedCard ? "/page3" : "#"}
-              className={`w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 ${
-                selectedCard ? "bg-[#bbe94a] hover:bg-[#a1d26c]" : "bg-gray-400"
-              } rounded-full flex items-center justify-center transition-colors ${
-                !selectedCard || isSubmitting
-                  ? "cursor-not-allowed opacity-50"
-                  : ""
-              }`}
-              onClick={(e) => {
-                if (!selectedCard || isSubmitting) {
-                  e.preventDefault();
-                }
-              }}
+              href="/page3"
+              className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#bbe94a] hover:bg-[#a1d26c] rounded-full flex items-center justify-center transition-colors"
             >
               <span className="text-black text-base sm:text-xl font-bold mr-3 truncate">
-                {isSubmitting ? "Saving..." : "Next"}
+                Next
               </span>
-              <div className="w-3 sm:w-4 h-3 sm:h-4 ml-1 sm:ml-2 flex-shrink-0">
-                <img
-                  src="Union2.PNG"
-                  alt="Home"
-                  className="w-full h-full object-contain filter grayscale"
-                />
-              </div>
             </Link>
           </div>
         </div>

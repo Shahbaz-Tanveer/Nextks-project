@@ -1,63 +1,33 @@
 "use client";
+
+import axios from "axios";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function Home() {
+export default function SurveyComponent() {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [userData, setUserData] = useState(null); // Store user data fetched from the API
-
-  // Fetch the user data if email is already stored in localStorage
-  useEffect(() => {
-    const savedEmail = localStorage.getItem("emailAddress");
-    if (savedEmail) {
-      setEmail(savedEmail);
-      fetchUserData(savedEmail);
-    }
-  }, []);
+  const [error, setError] = useState(null);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
+    setError(null);
   };
 
   const handleStartSurvey = async () => {
-    if (!email) {
-      setError("Please enter email address");
-      return;
-    }
-
     try {
-      const response = await fetch("http://localhost:5000/api/submit-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email }),
-      });
-
-      if (response.ok) {
-        localStorage.setItem("emailAddress", email);
-        fetchUserData(email); // Fetch user data after storing email
-      } else {
-        console.error("Error submitting email");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  // Fetch user data from the API
-  const fetchUserData = async (email) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/api/progress/${email}`
+      const response = await axios.post(
+        "http://localhost:5000/api/submit-email",
+        {
+          email: email,
+        }
       );
-      const result = await response.json();
-      if (result.success) {
-        setUserData(result.data); // Set user data from API response
+      if (response.status === 200) {
+        console.log("Email submitted successfully");
+        localStorage.setItem("emailAddress", email);
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error("Error submitting email:", error);
+      setError("Failed to submit email. Please try again.");
     }
   };
 
@@ -129,18 +99,11 @@ export default function Home() {
             </div>
           </div>
 
-          {error && (
-            <div className="text-[#f91c1c] text-sm mt-1 sm:mt-2 lg:mt-2">
-              {error}
-            </div>
-          )}
-
           <div className="lg:ml-10">
             <Link
               href="/page2"
               passHref
               onClick={(e) => {
-                // Prevent navigation if there's an error or email is empty
                 if (!email || error) {
                   e.preventDefault();
                 } else {

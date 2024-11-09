@@ -1,52 +1,59 @@
 "use client";
-
 import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function Page2() {
-  // State to track selected answers for Q2's parts
+export default function QuestionPage() {
+  const email = localStorage.getItem("emailAddress");
+
   const [answers, setAnswers] = useState({
-    comfort: null, // Q2 part 1
-    looks: null, // Q2 part 2
-    price: null, // Q2 part 3
+    comfort: null,
+    looks: null,
+    price: null,
+  });
+  const [error, setError] = useState({
+    comfort: false,
+    looks: false,
+    price: false,
   });
 
-  // Function to handle dot click and send API request
-  const handleDotClick = async (aspect, score) => {
+  // Check if all parts are answered to enable the "Next" button
+  const isAllAnswered = Object.values(answers).every((value) => value !== null);
+
+  // Handle dot click and submit the answer for the part
+  const handleDotClick = async (key, value) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [aspect]: score,
+      [key]: value,
+    }));
+    setError((prevError) => ({
+      ...prevError,
+      [key]: false,
     }));
 
-    const email = localStorage.getItem("emailAddress");
+    try {
+      // Define the part number based on the key
+      const partNumber = key === "comfort" ? 1 : key === "looks" ? 2 : 3;
 
-    if (email) {
-      try {
-        // Map aspects to part numbers
-        const partMapping = {
-          comfort: 1,
-          looks: 2,
-          price: 3,
-        };
-
-        await axios.post("http://localhost:5000/api/submit-question", {
-          email,
-          questionNumber: 2, // All are part of Q2
-          answer: score,
-          part: partMapping[aspect], // Send the corresponding part number
-        });
-      } catch (error) {
-        console.error("Error submitting the answer:", error);
-      }
+      // Send the answer to the API
+      await axios.post("http://localhost:5000/api/submit-question", {
+        email,
+        questionNumber: 2,
+        part: partNumber,
+        answer: value,
+      });
+      console.log(`Successfully submitted ${key} with value ${value}`);
+    } catch (err) {
+      console.error(`Error submitting ${key}:`, err);
+      setError((prevError) => ({
+        ...prevError,
+        [key]: true,
+      }));
     }
   };
 
-  // Check if all parts are answered to enable navigation
-  const isAllAnswered = Object.values(answers).every((score) => score !== null);
-
   return (
-    <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center justify-center lg:pt-4 ">
+    <div className="min-h-screen bg-gradient-to-l from-[#010101] to-[#4d4d4d] flex flex-col items-center justify-center lg:pt-4">
       <div className="block sm:hidden sm:ml-2 ">
         <img
           src="Union.PNG"
@@ -96,9 +103,9 @@ export default function Page2() {
                   ))}
                 </div>
               </div>
-              {answers[key] === null && (
+              {error[key] && (
                 <div className="text-[#f91c1c] text-sm mt-1 sm:mt-2 lg:mt-2">
-                  Please select a score
+                  An error occurred while submitting. Please try again.
                 </div>
               )}
             </div>
@@ -108,7 +115,7 @@ export default function Page2() {
           <div className="flex justify-between gap-3 w-full mt-6">
             {/* Back Button */}
             <Link
-              href="/page2" // Updated to point to page1 since this is Q2
+              href="/page2"
               className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#edb6d2] hover:bg-[#d79c9e] rounded-full flex items-center justify-center transition-colors"
             >
               <div className="w-3 sm:w-4 h-3 sm:h-4 mr-1">
@@ -125,7 +132,7 @@ export default function Page2() {
 
             {/* Next Button */}
             <Link
-              href={isAllAnswered ? "/page4" : "#"} // Updated to point to thank you page
+              href={isAllAnswered ? "/page4" : "#"}
               className={`w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 ${
                 isAllAnswered
                   ? "bg-[#ffffff] hover:bg-[#e1e0e0]"

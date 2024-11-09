@@ -36,12 +36,12 @@ export default function SurveyComponent() {
       <div className="w-full max-w-6xl relative flex flex-col lg:flex-row items-center lg:items-start gap-6 pt-4 lg:h-screen">
         <div className="relative w-full lg:w-1/2 aspect-square lg:aspect-auto lg:h-full">
           {/* Image placeholders */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative lg:-top-48 lg:-left-25 w-full">
+          <div className="top-0">
+            <div className="top-2">
               <img
                 src="Union.PNG"
                 alt="Placeholder"
-                className="w-[50%] md:w-[55%] h-auto object-contain mix-blend-overlay opacity-90 brightness-200 contrast-125"
+                className="w-[50%] md:w-[55%] h-auto object-contain mix-blend-overlay opacity-90 brightness-200 contrast-125 sm:top-10"
               />
             </div>
           </div>
@@ -65,17 +65,15 @@ export default function SurveyComponent() {
           </div>
         </div>
 
-        <div className="w-full lg:w-1/2 flex flex-col gap-4 lg:gap-6 z-10 lg:h-full justify-start lg:justify-center -mt-8 lg:mt-0">
+        <div className="w-full lg:w-1/2 flex flex-col gap-4 lg:gap-6 z-10 lg:h-full justify-start lg:justify-center -mt-8 ">
           <h1 className="text-4xl lg:text-7xl text-white font-bold text-center lg:text-left lg:pr-2">
             Questionnaire
           </h1>
           <div className="lg:ml-10">
             <div className="bg-[#edb6d2] rounded-3xl p-4 lg:p-8">
               <div className="space-y-2 lg:space-y-4 text-black">
-                <span className="text-xl lg:text-2xl font-['Source Sans Pro'] block">
-                  Welcome!
-                </span>
-                <p className="text-base lg:text-lg font-['Source Sans Pro']">
+                <span className="text-xl lg:text-2xl block">Welcome!</span>
+                <p className="text-base lg:text-lg ">
                   We're excited to hear your thoughts, ideas, and insights.
                   Don't worry about right or wrong answers—just speak from the
                   heart. Your genuine feedback is invaluable to us!
@@ -86,9 +84,7 @@ export default function SurveyComponent() {
 
           <div className="lg:ml-10">
             <div className="space-y-2">
-              <label className="text-white text-xl font-medium font-['Signika']">
-                Email
-              </label>
+              <label className="text-white text-xl font-medium">Email</label>
               <input
                 type="email"
                 placeholder="Enter email address"

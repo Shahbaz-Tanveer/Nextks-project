@@ -25,7 +25,7 @@ export default function Page2() {
       try {
         await axios.post("http://localhost:5000/api/submit-question", {
           email,
-          questionNumber: aspect === "comfort" ? 1 : aspect === "looks" ? 2 : 3,
+          questionNumber: aspect === "comfort" ? 2 : aspect === "looks" ? 3 : 4,
           answer: score,
         });
       } catch (error) {

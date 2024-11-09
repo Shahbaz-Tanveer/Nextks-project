@@ -53,8 +53,8 @@ export default function SurveyComponent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-l from-[rgb(1,1,1)] to-[#4d4d4d] flex flex-col items-center p-4 lg:p-0">
-      <div className="w-full max-w-6xl relative flex flex-col lg:flex-row items-center lg:items-start gap-6 pt-4 lg:h-screen">
+    <div className="min-h-screen bg-gradient-to-l from-[rgb(1,1,1)] to-[#4d4d4d] flex flex-col items-center  lg:p-0">
+      <div className="w-full max-w-6xl relative flex flex-col lg:flex-row items-center lg:items-start gap-6 lg:h-screen">
         <div className="relative w-full lg:w-1/2 aspect-square lg:aspect-auto lg:h-full">
           {/* Image placeholders */}
           <div>
@@ -62,7 +62,7 @@ export default function SurveyComponent() {
               <img
                 src="Union.PNG"
                 alt="Placeholder"
-                className="w-[50%] md:w-[55%] h-auto object-contain mix-blend-overlay opacity-90 brightness-200 contrast-125 sm:top-10 xl:mt-[5%]  xl:ml-[15%] "
+                className="w-[50%] md:w-[55%] h-auto object-contain mix-blend-overlay opacity-90 brightness-200 contrast-125 sm:top-10 xl:mt-[5%]  xl:ml-[15%] pl-6"
               />
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function SurveyComponent() {
           </div>
         </div>
 
-        <div className="w-full lg:w-1/2 flex flex-col gap-4 lg:gap-6 z-10 lg:h-full justify-start lg:justify-center -mt-8 ">
+        <div className="w-full lg:w-1/2 flex flex-col gap-4 lg:gap-6 z-10 lg:h-full justify-start lg:justify-center -mt-8 p-4">
           <h1 className="text-4xl lg:text-7xl text-white font-bold text-center lg:text-left lg:pr-2">
             Questionnaire
           </h1>

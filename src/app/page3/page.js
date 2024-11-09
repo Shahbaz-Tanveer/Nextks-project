@@ -103,6 +103,9 @@ export default function QuestionPage() {
                   ))}
                 </div>
               </div>
+              <div className="text-[#f91c1c] text-sm mt-1 sm:mt-2 lg:mt-2">
+                Please select a score
+              </div>
               {error[key] && (
                 <div className="text-[#f91c1c] text-sm mt-1 sm:mt-2 lg:mt-2">
                   An error occurred while submitting. Please try again.

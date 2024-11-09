@@ -8,7 +8,7 @@ export default function Home() {
         <div className="relative w-full lg:w-1/2 aspect-square lg:aspect-auto lg:h-full">
           {/* First image (Union.PNG) container */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative -top-32 -left-8 lg:-top-48 lg:-left-12 w-full">
+            <div className="relative  lg:-top-48 lg:-left-25 w-full">
               <img
                 src="Union.PNG"
                 alt="Placeholder"
@@ -17,33 +17,35 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Second image (1stshoe.png) container - Moved much higher */}
-          <div className="absolute bottom-0 w-full">
-            <div className="relative -top-32 lg:-top-64 right-0">
+          {/* Combined second and third image container */}
+          <div className="absolute w-full" style={{ bottom: "5vh" }}>
+            {/* Second image (1stshoe.png) */}
+            <div className="relative  lg:-top-40 lg:-left-9 w-full">
               <img
                 src="1stshoe.png"
                 alt="Placeholder"
                 className="w-full h-auto object-contain mix-blend-overlay"
               />
             </div>
-          </div>
-          <div className="absolute w-full" style={{ bottom: "20vh" }}>
-            <img
-              src="Ellipse.PNG"
-              alt="Placeholder"
-              className="w-full h-auto object-contain mix-blend-overlay"
-            />
+            {/* Third image (Ellipse.PNG) */}
+            <div className="relative -mt-16 lg:-mt-24">
+              <img
+                src="Ellipse.PNG"
+                alt="Placeholder"
+                className="w-full h-auto object-contain mix-blend-overlay"
+              />
+            </div>
           </div>
         </div>
 
-        {/* Content Container */}
-        <div className="w-full lg:w-1/2 flex flex-col gap-6 z-10 lg:h-full justify-center">
+        {/* Content Container - Adjusted for better mobile positioning */}
+        <div className="w-full lg:w-1/2 flex flex-col gap-4 lg:gap-6 z-10 lg:h-full justify-start lg:justify-center -mt-8 lg:mt-0">
           <h1 className="text-4xl lg:text-7xl text-white font-bold font-['Signika'] text-center lg:text-right">
             Questionnaire
           </h1>
           {/* Welcome Message */}
-          <div className="bg-[#edb6d2] rounded-3xl p-6 lg:p-8">
-            <div className="space-y-4 text-black">
+          <div className="bg-[#edb6d2] rounded-3xl p-4 lg:p-8">
+            <div className="space-y-2 lg:space-y-4 text-black">
               <span className="text-xl lg:text-2xl font-['Source Sans Pro'] block">
                 Welcome!
               </span>
@@ -62,16 +64,15 @@ export default function Home() {
             <input
               type="email"
               placeholder="Enter email address"
-              className="w-full h-14 px-4 py-3 bg-white rounded-3xl border border-[#cdcdcd] text-sm font-['Signika'] text-[#a2a2a2]"
+              className="w-full h-12 lg:h-14 px-4 py-3 bg-white rounded-3xl border border-[#cdcdcd] text-sm font-['Signika'] text-[#a2a2a2]"
             />
           </div>
           {/* Start Survey Button */}
           <Link href="/page2#startSurvey">
-            <div className="self-stretch h-20 px-[35px] py-2 bg-[#bbe94a] rounded-[35px] flex justify-between items-center">
-              <div className="text-black text-2xl font-bold font-['Signika']">
+            <div className="self-stretch h-16 lg:h-20 px-[35px] py-2 bg-[#bbe94a] rounded-[35px] flex justify-between items-center">
+              <div className="text-black text-xl lg:text-2xl font-bold font-['Signika']">
                 Start Survey
               </div>
-
               {/* Image icon on the right */}
               <div className="w-4 h-4">
                 <img

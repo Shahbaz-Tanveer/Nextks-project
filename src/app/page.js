@@ -1,10 +1,20 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [userData, setUserData] = useState(null); // Store user data fetched from the API
+
+  // Fetch the user data if email is already stored in localStorage
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("emailAddress");
+    if (savedEmail) {
+      setEmail(savedEmail);
+      fetchUserData(savedEmail);
+    }
+  }, []);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -27,6 +37,7 @@ export default function Home() {
 
       if (response.ok) {
         localStorage.setItem("emailAddress", email);
+        fetchUserData(email); // Fetch user data after storing email
       } else {
         console.error("Error submitting email");
       }
@@ -35,10 +46,26 @@ export default function Home() {
     }
   };
 
+  // Fetch user data from the API
+  const fetchUserData = async (email) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/progress/${email}`
+      );
+      const result = await response.json();
+      if (result.success) {
+        setUserData(result.data); // Set user data from API response
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-l from-[rgb(1,1,1)] to-[#4d4d4d] flex flex-col items-center p-4 lg:p-0">
       <div className="w-full max-w-6xl relative flex flex-col lg:flex-row items-center lg:items-start gap-6 pt-4 lg:h-screen">
         <div className="relative w-full lg:w-1/2 aspect-square lg:aspect-auto lg:h-full">
+          {/* Image placeholders */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="relative lg:-top-48 lg:-left-25 w-full">
               <img

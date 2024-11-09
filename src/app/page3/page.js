@@ -5,11 +5,11 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function Page2() {
-  // State to track selected answers for each question
+  // State to track selected answers for Q2's parts
   const [answers, setAnswers] = useState({
-    comfort: null,
-    looks: null,
-    price: null,
+    comfort: null, // Q2 part 1
+    looks: null, // Q2 part 2
+    price: null, // Q2 part 3
   });
 
   // Function to handle dot click and send API request
@@ -23,10 +23,18 @@ export default function Page2() {
 
     if (email) {
       try {
+        // Map aspects to part numbers
+        const partMapping = {
+          comfort: 1,
+          looks: 2,
+          price: 3,
+        };
+
         await axios.post("http://localhost:5000/api/submit-question", {
           email,
-          questionNumber: aspect === "comfort" ? 2 : aspect === "looks" ? 3 : 4,
+          questionNumber: 2, // All are part of Q2
           answer: score,
+          part: partMapping[aspect], // Send the corresponding part number
         });
       } catch (error) {
         console.error("Error submitting the answer:", error);
@@ -34,7 +42,7 @@ export default function Page2() {
     }
   };
 
-  // Check if all questions are answered to enable navigation
+  // Check if all parts are answered to enable navigation
   const isAllAnswered = Object.values(answers).every((score) => score !== null);
 
   return (
@@ -65,26 +73,30 @@ export default function Page2() {
             </span>
           </h1>
 
-          {/* Rating Section for each question */}
-          {["comfort", "looks", "price"].map((aspect) => (
-            <div key={aspect} className="w-full mb-6 mt-4 sm:mt-4 lg:mt-4">
+          {/* Rating Section for each part of Q2 */}
+          {[
+            { key: "comfort", label: "Comfort (Part 1)" },
+            { key: "looks", label: "Looks (Part 2)" },
+            { key: "price", label: "Price (Part 3)" },
+          ].map(({ key, label }) => (
+            <div key={key} className="w-full mb-6 mt-4 sm:mt-4 lg:mt-4">
               <div className="flex justify-between items-center bg-white rounded-[40px] p-4 sm:p-3 sm:h-14 sm:h-12 lg:p-4">
-                <span className="text-lg font-semibold text-gray-800 capitalize">
-                  {aspect}
+                <span className="text-lg font-semibold text-gray-800">
+                  {label}
                 </span>
                 <div className="flex space-x-2">
                   {[1, 2, 3, 4, 5].map((dot) => (
                     <span
                       key={dot}
-                      onClick={() => handleDotClick(aspect, dot)}
+                      onClick={() => handleDotClick(key, dot)}
                       className={`w-4 h-4 rounded-full cursor-pointer transition-colors ${
-                        answers[aspect] >= dot ? "bg-black" : "bg-gray-300"
+                        answers[key] >= dot ? "bg-black" : "bg-gray-300"
                       }`}
                     ></span>
                   ))}
                 </div>
               </div>
-              {answers[aspect] === null && (
+              {answers[key] === null && (
                 <div className="text-[#f91c1c] text-sm mt-1 sm:mt-2 lg:mt-2">
                   Please select a score
                 </div>
@@ -96,7 +108,7 @@ export default function Page2() {
           <div className="flex justify-between gap-3 w-full mt-6">
             {/* Back Button */}
             <Link
-              href="/page2"
+              href="/page2" // Updated to point to page1 since this is Q2
               className="w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 bg-[#edb6d2] hover:bg-[#d79c9e] rounded-full flex items-center justify-center transition-colors"
             >
               <div className="w-3 sm:w-4 h-3 sm:h-4 mr-1">
@@ -113,7 +125,7 @@ export default function Page2() {
 
             {/* Next Button */}
             <Link
-              href={isAllAnswered ? "/page4" : "#"}
+              href={isAllAnswered ? "/page4" : "#"} // Updated to point to thank you page
               className={`w-24 sm:w-42 md:w-40 h-12 sm:h-16 px-3 sm:px-6 ${
                 isAllAnswered
                   ? "bg-[#ffffff] hover:bg-[#e1e0e0]"

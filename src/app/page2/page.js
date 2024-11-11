@@ -9,9 +9,10 @@ export default function QuestionPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const loadProgress = async () => {
-      try {
+ useEffect(() => {
+  const loadProgress = async () => {
+    try {
+      if (typeof window !== "undefined") {
         const currentEmail = localStorage.getItem("emailAddress");
 
         if (!currentEmail) {
@@ -35,16 +36,18 @@ export default function QuestionPage() {
               : null
           );
         }
-      } catch (error) {
-        console.error("Error loading progress:", error);
-        setError("Error loading your previous answers.");
-      } finally {
-        setIsLoading(false);
       }
-    };
+    } catch (error) {
+      console.error("Error loading progress:", error);
+      setError("Error loading your previous answers.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    loadProgress();
-  }, []);
+  loadProgress();
+}, []);
+
 
   const handleCardClick = async (cardNumber) => {
     // Prevent multiple submissions or clicking the same card

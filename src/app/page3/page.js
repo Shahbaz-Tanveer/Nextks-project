@@ -114,10 +114,10 @@ export default function QuestionPage() {
       </div>
       <div className="sm:mt-1 lg:mt-8 z-10">
         <div className="max-w-2xl w-full mx-auto p-6 flex flex-col items-center justify-center z-30 sm:mt-3">
-          <h3 className="text font-bold text-center mt-4 lg:mt-4">
+          <h3 className="text-gray-500 font-bold text-center mt-4 lg:mt-4">
             Question 2
           </h3>
-          <h1 className="text-3xl font-bold text-center mb-6 mt-2 sm:mt-4 lg:mt-4">
+          <h1 className="text-3xl text-white font-bold text-center mb-6 mt-2 sm:mt-4 lg:mt-4">
             <span className="hidden sm:block">
               How important are these aspects for you?
             </span>
